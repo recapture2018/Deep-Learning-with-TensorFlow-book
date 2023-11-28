@@ -65,10 +65,7 @@ def d_loss_fn(generator, discriminator, batch_z, batch_x, is_training):
     d_loss_real = celoss_ones(d_real_logits)
     # 生成图片与0之间的误差
     d_loss_fake = celoss_zeros(d_fake_logits)
-    # 合并误差
-    loss = d_loss_fake + d_loss_real
-
-    return loss
+    return d_loss_fake + d_loss_real
 
 
 def g_loss_fn(generator, discriminator, batch_z, is_training):
@@ -76,10 +73,7 @@ def g_loss_fn(generator, discriminator, batch_z, is_training):
     fake_image = generator(batch_z, is_training)
     # 在训练生成网络时，需要迫使生成图片判定为真
     d_fake_logits = discriminator(fake_image, is_training)
-    # 计算生成图片与1之间的误差
-    loss = celoss_ones(d_fake_logits)
-
-    return loss
+    return celoss_ones(d_fake_logits)
 
 def main():
 

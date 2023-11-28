@@ -1,7 +1,7 @@
 import os
 import sys
 import numpy as np
-import tensorflow as tf 
+import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -30,7 +30,7 @@ with open(os.path.join(GLOVE_DIR, 'glove.6B.100d.txt')) as f:
         coefs = np.asarray(values[1:], dtype='float32')
         embeddings_index[word] = coefs
 
-print('Found %s word vectors.' % len(embeddings_index))
+print(f'Found {len(embeddings_index)} word vectors.')
 
 # second, prepare text samples and their labels
 print('Processing text dataset')
@@ -50,12 +50,12 @@ for name in sorted(os.listdir(TEXT_DATA_DIR)):
                 with open(fpath, **args) as f:
                     t = f.read()
                     i = t.find('\n\n')  # skip header
-                    if 0 < i:
+                    if i > 0:
                         t = t[i:]
                     texts.append(t)
                 labels.append(label_id)
 
-print('Found %s texts.' % len(texts))
+print(f'Found {len(texts)} texts.')
 
 # finally, vectorize the text samples into a 2D integer tensor
 tokenizer = Tokenizer(num_words=MAX_NUM_WORDS)
@@ -63,7 +63,7 @@ tokenizer.fit_on_texts(texts)
 sequences = tokenizer.texts_to_sequences(texts)
 
 word_index = tokenizer.word_index
-print('Found %s unique tokens.' % len(word_index))
+print(f'Found {len(word_index)} unique tokens.')
 
 data = pad_sequences(sequences, maxlen=MAX_SEQUENCE_LENGTH)
 

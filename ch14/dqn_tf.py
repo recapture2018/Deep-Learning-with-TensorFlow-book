@@ -75,18 +75,14 @@ class Qnet(keras.Model):
         out = self(s)[0]
         coin = random.random()
         # 策略改进：e-贪心方式
-        if coin < epsilon:
-            # epsilon大的概率随机选取
-            return random.randint(0, 1)
-        else:  # 选择Q值最大的动作
-            return int(tf.argmax(out))
+        return random.randint(0, 1) if coin < epsilon else int(tf.argmax(out))
 
 
 def train(q, q_target, memory, optimizer):
     # 通过Q网络和影子网络来构造贝尔曼方程的误差，
     # 并只更新Q网络，影子网络的更新会滞后Q网络
     huber = losses.Huber()
-    for i in range(10):  # 训练10次
+    for _ in range(10):
         # 从缓冲池采样
         s, a, r, s_prime, done_mask = memory.sample(batch_size)
         with tf.GradientTape() as tape:
@@ -131,7 +127,7 @@ def main():
         # epsilon概率也会8%到1%衰减，越到后面越使用Q值最大的动作
         epsilon = max(0.01, 0.08 - 0.01 * (n_epi / 200))
         s = env.reset()  # 复位环境
-        for t in range(600):  # 一个回合最大时间戳
+        for _ in range(600):
             # if n_epi>1000:
             #     env.render()
             # 根据当前Q网络提取策略，并改进策略

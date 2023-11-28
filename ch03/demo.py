@@ -2,10 +2,7 @@ import  tensorflow as tf
 from    tensorflow.keras import datasets, layers, optimizers, Sequential, metrics
 
 
-# 设置GPU使用方式
-# 获取GPU列表
-gpus = tf.config.experimental.list_physical_devices('GPU')
-if gpus:
+if gpus := tf.config.experimental.list_physical_devices('GPU'):
   try:
     # 设置GPU为增长式占用
     for gpu in gpus:

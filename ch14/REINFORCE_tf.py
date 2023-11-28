@@ -70,7 +70,7 @@ def main():
     for n_epi in range(400):
         s = env.reset() # 回到游戏初始状态，返回s0
         with tf.GradientTape(persistent=True) as tape:
-            for t in range(501): # CartPole-v1 forced to terminates at 500 step.
+            for _ in range(501):
                 # 送入状态向量，获取策略
                 s = tf.constant(s,dtype=tf.float32)
                 # s: [4] => [1,4]

@@ -40,10 +40,9 @@ for step in range(200):# 循环优化
         tape.watch([x]) # 记录梯度
         y = himmelblau(x) # 前向传播
     # 反向传播
-    grads = tape.gradient(y, [x])[0] 
+    grads = tape.gradient(y, [x])[0]
     # 更新参数,0.01为学习率
     x -= 0.01*grads
     # 打印优化的极小值
     if step % 20 == 19:
-        print ('step {}: x = {}, f(x) = {}'
-               .format(step, x.numpy(), y.numpy()))
+        print(f'step {step}: x = {x.numpy()}, f(x) = {y.numpy()}')

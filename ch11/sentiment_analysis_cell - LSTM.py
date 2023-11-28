@@ -90,10 +90,7 @@ class MyRNN(keras.Model):
             out1, state1 = self.rnn_cell1(out0, state1, training)
         # 末层最后一个输出作为分类网络的输入: [b, 64] => [b, 1]
         x = self.outlayer(out1,training)
-        # p(y is pos|x)
-        prob = tf.sigmoid(x)
-
-        return prob
+        return tf.sigmoid(x)
 
 def main():
     units = 64 # RNN状态向量长度f

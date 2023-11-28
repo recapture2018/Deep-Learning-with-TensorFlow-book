@@ -51,7 +51,7 @@ with open(os.path.join(GLOVE_DIR, 'glove.6B.100d.txt'),encoding='utf-8') as f:
         coefs = np.asarray(values[1:], dtype='float32')
         embeddings_index[word] = coefs
 
-print('Found %s word vectors.' % len(embeddings_index))
+print(f'Found {len(embeddings_index)} word vectors.')
 #%%
 len(embeddings_index.keys())
 len(word_index.keys())
@@ -119,10 +119,7 @@ class MyRNN(keras.Model):
         x = self.rnn(x)
         # 末层最后一个输出作为分类网络的输入: [b, 64] => [b, 1]
         x = self.outlayer(x,training)
-        # p(y is pos|x)
-        prob = tf.sigmoid(x)
-
-        return prob
+        return tf.sigmoid(x)
 
 def main():
     units = 512 # RNN状态向量长度f

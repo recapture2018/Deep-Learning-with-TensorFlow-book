@@ -91,7 +91,7 @@ out.shape
 
 #%%
 layer = layers.SimpleRNN(64,return_sequences=True)
-out = layer(x) 
+out = layer(x)
 out
 
 #%%
@@ -110,8 +110,7 @@ eigenvalues = tf.linalg.eigh(W)[0] # 计算特征值
 eigenvalues
 #%%
 val = [W]
-for i in range(10): # 矩阵相乘n次方
-    val.append([val[-1]@W])
+val.extend([val[-1]@W] for _ in range(10))
 # 计算L2范数
 norm = list(map(lambda x:tf.norm(x).numpy(),val))
 plt.plot(range(1,12),norm)
@@ -123,8 +122,7 @@ W = tf.ones([2,2])*0.4 # 任意创建某矩阵
 eigenvalues = tf.linalg.eigh(W)[0] # 计算特征值
 print(eigenvalues)
 val = [W]
-for i in range(10):
-    val.append([val[-1]@W])
+val.extend([val[-1]@W] for _ in range(10))
 norm = list(map(lambda x:tf.norm(x).numpy(),val))
 plt.plot(range(1,12),norm)
 plt.xlabel('n times')
@@ -149,7 +147,7 @@ tf.norm(a),tf.norm(b)
 w1=tf.random.normal([3,3]) # 创建梯度张量1
 w2=tf.random.normal([3,3]) # 创建梯度张量2
 # 计算global norm
-global_norm=tf.math.sqrt(tf.norm(w1)**2+tf.norm(w2)**2) 
+global_norm=tf.math.sqrt(tf.norm(w1)**2+tf.norm(w2)**2)
 # 根据global norm和max norm=2裁剪
 (ww1,ww2),global_norm=tf.clip_by_global_norm([w1,w2],2)
 # 计算裁剪后的张量组的global norm

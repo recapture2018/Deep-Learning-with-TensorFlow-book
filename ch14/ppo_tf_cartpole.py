@@ -160,7 +160,7 @@ def main():
     total = 0 # 一段时间内平均回报
     for i_epoch in range(500): # 训练回合数
         state = env.reset() # 复位环境
-        for t in range(500): # 最多考虑500步
+        for _ in range(500):
             # 通过最新策略与环境交互
             action, action_prob = agent.select_action(state)
             next_state, reward, done, _ = env.step(action)

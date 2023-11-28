@@ -86,10 +86,7 @@ class Discriminator(keras.Model):
         x = self.pool(x)
         # 打平
         x = self.flatten(x)
-        # 输出，[b, 1024] => [b, 1]
-        logits = self.fc(x)
-
-        return logits
+        return self.fc(x)
 
 def main():
 

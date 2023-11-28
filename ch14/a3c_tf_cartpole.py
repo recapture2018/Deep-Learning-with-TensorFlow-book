@@ -105,7 +105,7 @@ class Agent:
         workers = [Worker(self.server, self.opt, res_queue, i)
                    for i in range(multiprocessing.cpu_count())]
         for i, worker in enumerate(workers):
-            print("Starting worker {}".format(i))
+            print(f"Starting worker {i}")
             worker.start()
         # 统计并绘制总回报曲线
         returns = []
@@ -139,11 +139,11 @@ class Worker(threading.Thread):
 
     def run(self): 
         mem = Memory() # 每个worker自己维护一个memory
-        for epi_counter in range(500): # 未达到最大回合数
+        for _ in range(500):
             current_state = self.env.reset() # 复位client游戏状态
             mem.clear()
             ep_reward = 0.
-            ep_steps = 0  
+            ep_steps = 0
             done = False
             while not done:
                 # 获得Pi(a|s),未经softmax
@@ -210,9 +210,7 @@ class Worker(threading.Thread):
         entropy = tf.nn.softmax_cross_entropy_with_logits(labels=policy,
                                                           logits=logits)
         policy_loss = policy_loss - 0.01 * entropy
-        # 聚合各个误差
-        total_loss = tf.reduce_mean((0.5 * value_loss + policy_loss))
-        return total_loss
+        return tf.reduce_mean((0.5 * value_loss + policy_loss))
 
 
 if __name__ == '__main__':
